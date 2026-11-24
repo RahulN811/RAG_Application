@@ -1,0 +1,252 @@
+[
+    {
+        "id": 1,
+        "question": "What is RAG?",
+        "ground_truth": "RAG stands for Retrieval-Augmented Generation. It combines search (information retrieval) with a language model: the application finds relevant passages in a chosen knowledge collection and supplies them as context, and the model writes an answer grounded in those passages."
+    },
+    {
+        "id": 2,
+        "question": "How does RAG differ from asking a language model to answer only from its learned parameters?",
+        "ground_truth": "Instead of relying only on the model's learned parameters, a RAG application finds relevant passages in a chosen knowledge collection and supplies them to the model as context, so the answer is grounded in those passages."
+    },
+    {
+        "id": 3,
+        "question": "What is the typical flow of a request in a RAG system?",
+        "ground_truth": "A typical request goes: question, then retrieve relevant text, then build a prompt with that text, then generate a cited answer."
+    },
+    {
+        "id": 4,
+        "question": "Does RAG guarantee that the generated answers are correct?",
+        "ground_truth": "No. RAG can make answers more current and domain-specific, but it does not guarantee correctness. Retrieval, source quality, and answer grounding all need checking."
+    },
+    {
+        "id": 5,
+        "question": "What technology stack does the RAG Practice Guide use?",
+        "ground_truth": "The practice stack is Python 3.11+, LangChain, Hugging Face sentence-transformers, Chroma, PyMuPDF/PyPDF, and optionally Groq."
+    },
+    {
+        "id": 6,
+        "question": "What are the two main pipelines in the RAG reference architecture?",
+        "ground_truth": "An offline pipeline that builds the knowledge index, and an online pipeline that answers a question."
+    },
+    {
+        "id": 7,
+        "question": "What are the steps of the offline pipeline that builds the knowledge index?",
+        "ground_truth": "Start with PDF, DOCX, HTML, or text files; load and extract text plus metadata; clean and split the text into overlapping chunks; use an embedding model to convert the chunks into vectors; and store the vectors, text, and metadata in Chroma."
+    },
+    {
+        "id": 8,
+        "question": "What are the steps of the online pipeline that answers a question?",
+        "ground_truth": "The question is embedded and used for a similarity search; the top-k chunks and their metadata become the prompt context; the LLM generates an answer grounded in that context; and the answer is returned to the user with source references."
+    },
+    {
+        "id": 9,
+        "question": "When does the indexing pipeline run and when does the query pipeline run?",
+        "ground_truth": "The indexing pipeline runs when documents change, while the query pipeline runs for each question."
+    },
+    {
+        "id": 10,
+        "question": "Why should the indexing and query pipelines be kept separate?",
+        "ground_truth": "Keeping them separate avoids re-embedding an unchanged document library for every request."
+    },
+    {
+        "id": 11,
+        "question": "What do document loaders do in a RAG system?",
+        "ground_truth": "Loaders extract text and useful metadata such as the source file, page, title, and access scope."
+    },
+    {
+        "id": 12,
+        "question": "Why might scanned PDFs need OCR?",
+        "ground_truth": "A parser cannot extract text that exists only as pixels, so scanned PDFs may need OCR to get their text."
+    },
+    {
+        "id": 13,
+        "question": "What is chunking and why does chunk size matter?",
+        "ground_truth": "Chunking divides long documents into retrieval-sized pieces. Chunk size matters because very large chunks dilute relevance, while very small chunks lose context."
+    },
+    {
+        "id": 14,
+        "question": "What chunk size and overlap does the guide suggest as a starting point?",
+        "ground_truth": "Try 500 to 800 characters per chunk with 80 to 120 characters of overlap, then tune for your documents and embedding model. These are starting points, not universal rules."
+    },
+    {
+        "id": 15,
+        "question": "What are embeddings?",
+        "ground_truth": "Embeddings map text to numeric vectors so that semantically similar text is located near each other."
+    },
+    {
+        "id": 16,
+        "question": "What rule does the guide give about embedding models for documents and queries?",
+        "ground_truth": "Use the same embedding model and compatible settings for both documents and queries."
+    },
+    {
+        "id": 17,
+        "question": "What happens if you change the embedding model?",
+        "ground_truth": "Changing embedding models generally requires rebuilding the collection."
+    },
+    {
+        "id": 18,
+        "question": "What does Chroma do as a vector store?",
+        "ground_truth": "Chroma persists vectors, text, and metadata, and returns the nearest matches to a query."
+    },
+    {
+        "id": 19,
+        "question": "How can metadata filters be used during search?",
+        "ground_truth": "Metadata filters can narrow the search by source, category, or date."
+    },
+    {
+        "id": 20,
+        "question": "Does a high similarity score prove that a passage answers the question?",
+        "ground_truth": "No. Similarity is a useful signal, not proof that a passage answers the question."
+    },
+    {
+        "id": 21,
+        "question": "What should the prompt instruct the LLM to do with the retrieved context?",
+        "ground_truth": "The prompt should tell the LLM to answer from the supplied context, admit when evidence is missing, and identify its sources."
+    },
+    {
+        "id": 22,
+        "question": "Why should metadata be kept with the retrieved chunks?",
+        "ground_truth": "Keeping metadata lets answers link back to the evidence they came from."
+    },
+    {
+        "id": 23,
+        "question": "What is the role of the generator in a RAG system?",
+        "ground_truth": "The generator is an LLM that turns the retrieved evidence into a readable response."
+    },
+    {
+        "id": 24,
+        "question": "How should API keys for an LLM provider like Groq be handled?",
+        "ground_truth": "Groq is an optional provider. API keys should be protected in environment variables and never committed."
+    },
+    {
+        "id": 25,
+        "question": "How many PDFs should you collect for a first RAG implementation, and what kind?",
+        "ground_truth": "Collect 5 to 10 text-based PDFs with varied content and clear page boundaries."
+    },
+    {
+        "id": 26,
+        "question": "What should you retain and check when loading each PDF?",
+        "ground_truth": "Retain the source filename and page metadata, and inspect the extracted text before indexing."
+    },
+    {
+        "id": 27,
+        "question": "How many chunks should you retrieve when first testing, and what should you do before adding an LLM?",
+        "ground_truth": "Ask questions whose answers appear in the files, retrieve the top 3 to 5 chunks, and inspect them before adding an LLM."
+    },
+    {
+        "id": 28,
+        "question": "What should the final answer include for each supporting passage?",
+        "ground_truth": "The answer should be returned with the source filename and page for each supporting passage."
+    },
+    {
+        "id": 29,
+        "question": "How should you experiment with design choices when improving a RAG system?",
+        "ground_truth": "Change one design choice at a time, such as chunk size, overlap, top-k, or the model, and compare the results."
+    },
+    {
+        "id": 30,
+        "question": "Which LangChain class is used to load PDFs in the guide's pseudocode?",
+        "ground_truth": "PyPDFLoader, imported from langchain_community.document_loaders. Its load() method returns pages that include page and source metadata."
+    },
+    {
+        "id": 31,
+        "question": "Which text splitter and settings are used in the guide's pseudocode?",
+        "ground_truth": "RecursiveCharacterTextSplitter with chunk_size=700 and chunk_overlap=100."
+    },
+    {
+        "id": 32,
+        "question": "Which embedding model is used in the guide's pseudocode?",
+        "ground_truth": "HuggingFaceEmbeddings with the model sentence-transformers/all-MiniLM-L6-v2."
+    },
+    {
+        "id": 33,
+        "question": "In the pseudocode, where is the Chroma store persisted and how many chunks does the similarity search return?",
+        "ground_truth": "The store is created with Chroma.from_documents using persist_directory=\"chroma_db\", and similarity_search is called with k=4, so it returns 4 chunks."
+    },
+    {
+        "id": 34,
+        "question": "What package might be needed for Chroma integration with LangChain?",
+        "ground_truth": "Chroma integration may require the separate langchain-chroma package, depending on the installed versions."
+    },
+    {
+        "id": 35,
+        "question": "What does the 'Inspect extraction' exercise ask you to do?",
+        "ground_truth": "Load a PDF and print the page count, the first 300 characters of each page, and the source/page metadata, then find an extraction problem and explain its likely cause."
+    },
+    {
+        "id": 36,
+        "question": "Which chunk sizes are compared in the 'Tune chunking' exercise?",
+        "ground_truth": "Chunk sizes of 300, 700, and 1,200 with proportional overlap. For five questions, you record whether supporting evidence appears in the top 3 results."
+    },
+    {
+        "id": 37,
+        "question": "Which k values are compared in the 'Tune retrieval' exercise?",
+        "ground_truth": "k=1, 3, and 6. You note when extra chunks add context versus noise, and try a metadata filter for one source."
+    },
+    {
+        "id": 38,
+        "question": "How do you test whether the model's responses are grounded?",
+        "ground_truth": "Ask both an answerable and an unanswerable question, check the citations, and check whether the model avoids inventing an answer when evidence is absent."
+    },
+    {
+        "id": 39,
+        "question": "What does the 'Compare search' exercise involve?",
+        "ground_truth": "Try keyword search alongside vector similarity, and find one query where exact terms matter and one where paraphrased meaning matters."
+    },
+    {
+        "id": 40,
+        "question": "What should a RAG evaluation test set contain?",
+        "ground_truth": "A small set of questions with expected facts and source pages."
+    },
+    {
+        "id": 41,
+        "question": "Which metrics should you track when evaluating a RAG system?",
+        "ground_truth": "Retrieval recall, context precision, answer correctness, citation accuracy, and abstention."
+    },
+    {
+        "id": 42,
+        "question": "What is the difference between retrieval recall and context precision?",
+        "ground_truth": "Retrieval recall measures whether a relevant chunk appeared in the retrieved results, while context precision measures whether the retrieved chunks were useful."
+    },
+    {
+        "id": 43,
+        "question": "What does abstention mean in RAG evaluation?",
+        "ground_truth": "Abstention checks whether the system admits when the corpus has no answer to the question."
+    },
+    {
+        "id": 44,
+        "question": "At which stages should RAG failures be reviewed?",
+        "ground_truth": "Failures should be reviewed by stage: extraction, chunk boundaries, search, prompt, or generation."
+    },
+    {
+        "id": 45,
+        "question": "How do you fix a fact that is split across chunks?",
+        "ground_truth": "Adjust the chunk boundaries or overlap, or retrieve adjacent chunks."
+    },
+    {
+        "id": 46,
+        "question": "How do you deal with the model giving an unsupported but plausible answer?",
+        "ground_truth": "Constrain the prompt and test the system with unanswerable questions."
+    },
+    {
+        "id": 47,
+        "question": "How can slow indexing be fixed?",
+        "ground_truth": "Embed once, persist the store, and reuse it."
+    },
+    {
+        "id": 48,
+        "question": "How do you handle stale or duplicate content in the index?",
+        "ground_truth": "Use stable document and chunk IDs and define an update strategy."
+    },
+    {
+        "id": 49,
+        "question": "How do you prevent sensitive content leakage in a RAG system?",
+        "ground_truth": "Enforce permissions before retrieval. Prompt instructions are not access control."
+    },
+    {
+        "id": 50,
+        "question": "What is the suggested next step for starting the RAG project?",
+        "ground_truth": "Start in Document_Loader.ipynb by loading one PDF, inspecting its pages, and printing a few chunks. Build and inspect retrieval before adding generation, because this makes each stage easier to debug."
+    }
+]
